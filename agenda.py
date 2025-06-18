@@ -12,20 +12,64 @@ def menu_principal():
     opcao = input("Digite o número da operação desejada: ")
     return opcao
 
-def adicionar_contato(usuario : str, nome : str, celular : str, email : str):
+def adicionar_contato():
+    usuario = "@" + input("\nDigite sua tag de usuário: ").lower()
+    if usuario in agenda:
+        print(f"ERRO: Tag de usuário {usuario} já existe.")
+        return
+    
+    nome = input("\nDigite seu nome de usuário: ")
+    
+    print("\nExemplo de número de telefone: DDNNNN-NNNN.")
+    print("Não inclua um '9' a mais depois do DDD.")
+    print("D: DDD, N: Dígito.")
+    celular = input("Digite seu número de telefone: ")
+    if len(celular) != 11 or celular[6] != "-":
+        print(f"ERRO: Número de telefone inválido.")
+        return
+    
+    print("\nExemplo de e-mail: nomedoemail@gmail.com")
+    email = input("Digite seu endereço eletrônico (e-mail): ")
+    if "@" not in email or "." not in email[(email.index('@')):]: # A segunda condição checa 
+        print("ERRO: E-mail inválido.")                           # se não há '.' depois do '@'.
+        return                                                    # EX: 'teste.@gmailcom' é inválido.
+    
     agenda[usuario] = [nome, celular, email]
     salvar_agenda()
 
 def buscar_contato(usuario : str):
     if usuario in agenda:
-        print(agenda[usuario])
+        auxtelefone = agenda[usuario][1]
+        print("\n" + "=" * 30)
+        print(f"Contato: {usuario}")
+        print("=" * 30)
+        print(f"Nome: {agenda[usuario][0]}")
+        print(f"Telefone: {"(" + auxtelefone[:2] + ") 9" + auxtelefone[2:]}")
+        print(f"E-mail: {agenda[usuario][2]}")
+        print("=" * 30)
     else:
         print(f"ERRO: Usuário {usuario} não existe.")
     
-def editar_contato(usuario : str, campo : str, novo_valor : str):
+def editar_contato(usuario : str):
     if usuario in agenda:
-        pass
-    salvar_agenda()
+        campos = {"nome" : 0, "telefone" : 1, "e-mail" : 2}
+        while True:
+            buscar_contato(usuario)
+            campo_edicao = input("Escolha o campo para editar ou [sair] para sair:").lower()
+            if campo_edicao == "sair":
+                break
+            if campo_edicao in campos:
+                if campos[campo_edicao] == 0:
+                    pass
+                elif campos[campo_edicao] == 1:
+                    pass
+                elif campos[campo_edicao] == 2:
+                    pass
+                agenda[usuario][campos[campo_edicao]]
+            print(f"ERRO: Campo {campo_edicao} não existe.")
+        salvar_agenda()
+    else:
+        print(f"ERRO: Usuário {usuario} não existe.")
 
 def remover_contato(usuario : str):
     pass
@@ -53,35 +97,15 @@ while True:
     if opcao.isnumeric():
         if int(opcao) in range(1, 6, 1):
             if   opcao == "1": # ADICIONAR CONTATO
-                usuario = "@" + input("\nDigite sua tag de usuário: ").lower()
-                if usuario in agenda:
-                    print(f"ERRO: Tag de usuário {usuario} já existe.")
-                    continue
-                
-                nome = input("\nDigite seu nome de usuário: ")
-                
-                print("\nExemplo de número de telefone: DDNNNN-NNNN.")
-                print("Não inclua um '9' a mais depois do DDD.")
-                print("D: DDD, N: Dígito.")
-                celular = input("Digite seu número de telefone: ")
-                if len(celular) != 11 or celular[6] != "-":
-                    print(f"ERRO: Número de telefone inválido.")
-                    continue
-                
-                print("\nExemplo de e-mail: nomedoemail@gmail.com")
-                email = input("Digite seu endereço eletrônico (e-mail): ")
-                if "@" not in email or "." not in email[(email.index('@')):]: # A segunda condição checa 
-                    print("ERRO: E-mail inválido.")                     # se não há '.' depois do '@'.
-                    continue                                            # EX: 'teste.@gmailcom' é inválido.
-                
-                adicionar_contato(usuario, nome, celular, email)
+                adicionar_contato()
 
             elif opcao == "2": # BUSCAR CONTATO
                 usuario = "@" + input("\nDigite a tag de usuário para pesquisar: ").lower()
                 buscar_contato(usuario)
 
             elif opcao == "3": # EDITAR CONTATO
-                pass
+                usuario = "@" + input("\nDigite a tag de usuário para editar: ").lower()
+                editar_contato(usuario)
 
             elif opcao == "4": # REMOVER CONTATO
                 pass
