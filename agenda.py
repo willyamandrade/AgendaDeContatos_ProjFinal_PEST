@@ -51,7 +51,7 @@ while True:
     opcao = menu_principal()
     if opcao.isnumeric():
         if int(opcao) in range(1, 6, 1):
-            if   opcao == "1": # ADICIONR CONTATO
+            if   opcao == "1": # ADICIONAR CONTATO
                 usuario = "@" + input("\nDigite sua tag de usuário: ").lower()
                 if usuario in agenda:
                     print(f"ERRO: Tag de usuário {usuario} já existe.")
