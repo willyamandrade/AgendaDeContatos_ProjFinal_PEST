@@ -23,7 +23,8 @@ def buscar_contato(usuario : str):
         print(f"ERRO: Usuário {usuario} não existe.")
     
 def editar_contato(usuario : str, campo : str, novo_valor : str):
-    pass
+    if usuario in agenda:
+        pass
     salvar_agenda()
 
 def remover_contato(usuario : str):
