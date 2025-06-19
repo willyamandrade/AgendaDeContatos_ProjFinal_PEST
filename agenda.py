@@ -125,7 +125,7 @@ def remover_contato(usuario1 : str):
         print(f"ERRO: Usuário {usuario} não existe.")   
     
 def salvar_agenda():
-    with open("agenda.json", "w") as saida:
+    with open("agenda.json", "w", encoding="utf-8") as saida:
         json.dump(agenda, saida)
  
 def carregar_agenda():
