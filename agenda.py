@@ -50,7 +50,7 @@ def buscar_contato(usuario : str):
         print(f"Contato: {usuario}")
         print("=" * 30)
         print(f"Nome: {agenda[usuario][0]}")
-        print(f"Telefone: {"(" + auxtelefone[:2] + ") 9" + auxtelefone[2:]}")
+        print(f"Telefone: ({auxtelefone[:2]}) 9{auxtelefone[2:]}")
         print(f"E-mail: {agenda[usuario][2]}")
         print("=" * 30)
     else:
@@ -74,8 +74,8 @@ def editar_contato(usuario1 : str):
                     if novatag in agenda:
                         print(f"ERRO: Tag de usuário {novatag} já existe.")
                     else:
-                        agenda[novatag] = agenda[usuario]
-                        print(f"Tag {agenda.pop(usuario)} virou {novatag} com sucesso.")
+                        agenda[novatag] = agenda.pop(usuario)
+                        print(f"Tag {usuario} virou {novatag} com sucesso.")
                         usuario = novatag
 
                 elif campos[campo_edicao] == 1:
@@ -134,7 +134,6 @@ def carregar_agenda():
         agenda = json.load(agendajson)
 
 def encerrar_programa():
-    confirmar = 1
     confirmar = input("Digite 'confirmar' para finalizar o programa: ")
     return confirmar
 
