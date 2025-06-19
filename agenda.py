@@ -1,14 +1,19 @@
 import json
 
+# INSTRUÇÕES DE USO:
+# Tenha certeza de que o arquivo "agenda.json"
+# está no mesmo diretório que "agenda.py".
+
 agenda = {}
 
 def menu_principal():
-    print("\n--- AGENDA DE CONTATOS ---")
+    print(f"\n{' Agenda de Contatos ':=^30}")
     print("[1] Adicionar contato")
     print("[2] Buscar contato")
     print("[3] Editar contato")
     print("[4] Remover contato")
-    print("[5] Sair\n")
+    print("[5] Sair")
+    print("=" * 30 + "\n")
     opcao = input("Digite o número da operação desejada: ")
     return opcao
 
@@ -104,10 +109,21 @@ def editar_contato(usuario1 : str):
     else:
         print(f"ERRO: Usuário {usuario} não existe.")
 
-def remover_contato(usuario : str):
-    pass
-    salvar_agenda()
-
+def remover_contato(usuario1 : str):
+    global agenda
+    usuario = usuario1
+    if usuario in agenda:
+        print("[s] para sim, [n] para não")
+        certeza = input(f"Tem certeza de que quer remover o contato {usuario}? ").lower()
+        if certeza == "s":
+            agenda.pop(usuario)
+            print(f"Contato {usuario1} deletado com sucesso.")
+            salvar_agenda()
+        else:
+            print(f"Contato {usuario} não foi deletado.")
+    else:
+        print(f"ERRO: Usuário {usuario} não existe.")   
+    
 def salvar_agenda():
     with open("agenda.json", "w") as saida:
         json.dump(agenda, saida)
@@ -122,8 +138,13 @@ def encerrar_programa():
     confirmar = input("Digite 'confirmar' para finalizar o programa: ")
     return confirmar
 
-
 carregar_agenda()
+
+print("<>" * 36)
+print(f"<>{'Agenda de Contatos':^68}<>")
+print("Desenvolvido por: Willyam A. Medeiros e Arthur Herbster Fernandes Vogel")
+print(f"<>{'No dia 18/06/25':^68}<>")
+print("<>" * 36)
 
 while True:
     opcao = menu_principal()[0:1] 
@@ -141,15 +162,16 @@ while True:
                 editar_contato(usuario)
 
             elif opcao == "4": # REMOVER CONTATO
-                pass
+                usuario = "@" + input("\nDigite a tag de usuário para remover: ").lower()
+                remover_contato(usuario)
 
             elif opcao == "5": # ENCERRAR PROGRAMA
                 if encerrar_programa() == "confirmar":
                     print("Programa encerrado com sucesso.")
                     break
                 else:
-                    print("Programa não encerrado.")
-        else:
+                    print("Programa não foi encerrado.")
+        else: 
             print(f"ERRO: A opção {opcao} não é um número inteiro entre 1 e 5.")
     else:
         print(f"ERRO: A opção {opcao} não é uma opção válida.")
