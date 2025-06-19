@@ -29,7 +29,7 @@ def adicionar_contato():
     print("Não inclua um '9' a mais depois do DDD.")
     print("D: DDD, N: Dígito.")
     celular = input("Digite seu número de telefone: ")
-    if len(celular) != 11 or celular[6] != "-":
+    if len(celular) != 11 or celular[6] != "-" or celular[0:6].isnumeric() == False or celular[7:].isnumeric() == False:
         print(f"ERRO: Número de telefone inválido.")
         return
     
@@ -88,7 +88,7 @@ def editar_contato(usuario1 : str):
                     print("Não inclua um '9' a mais depois do DDD.")
                     print("D: DDD, N: Dígito.")
                     novotelefone = input("\nDigite o novo telefone: ")
-                    if len(novotelefone) != 11 or novotelefone[6] != "-":
+                    if len(novotelefone) != 11 or novotelefone[6] != "-" or novotelefone[0:6].isnumeric() == False or novotelefone[7:].isnumeric() == False:
                         print(f"ERRO: Número de telefone inválido.")
                     else:
                         print(f"Nome {agenda[usuario][1]} virou {novotelefone} com sucesso.")
@@ -125,8 +125,8 @@ def remover_contato(usuario1 : str):
         print(f"ERRO: Usuário {usuario} não existe.")   
     
 def salvar_agenda():
-    with open("agenda.json", "w", encoding="utf-8") as saida:
-        json.dump(agenda, saida)
+    with open("agenda.json", "w", encoding="utf-8") as arquivojson:
+        json.dump(agenda, arquivojson)
  
 def carregar_agenda():
     global agenda
@@ -142,11 +142,11 @@ carregar_agenda()
 print("<>" * 36)
 print(f"<>{'Agenda de Contatos':^68}<>")
 print("Desenvolvido por: Willyam A. Medeiros e Arthur Herbster Fernandes Vogel")
-print(f"<>{'No dia 18/06/25':^68}<>")
+print(f"<>{'Entre: 18/06/25 - 19/06/2025':^68}<>")
 print("<>" * 36)
 
 while True:
-    opcao = menu_principal()[0:1] 
+    opcao = menu_principal()[0] 
     if opcao.isnumeric():
         if int(opcao) in range(1, 6, 1):
             if   opcao == "1": # ADICIONAR CONTATO
