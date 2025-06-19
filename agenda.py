@@ -146,7 +146,7 @@ print(f"<>{'Entre: 18/06/25 - 19/06/2025':^68}<>")
 print("<>" * 36)
 
 while True:
-    opcao = menu_principal()[0] 
+    opcao = menu_principal()
     if opcao.isnumeric():
         if int(opcao) in range(1, 6, 1):
             if   opcao == "1": # ADICIONAR CONTATO
