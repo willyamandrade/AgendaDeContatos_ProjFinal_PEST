@@ -26,7 +26,7 @@ def adicionar_contato():
     nome = input("\nDigite seu nome de usuário: ")
     
     print("\nExemplo de número de telefone: DDNNNN-NNNN.")
-    print("Não inclua um '9' a mais depois do DDD.")
+    print("Não inclua um '9' adicional depois do DDD.")
     print("D: DDD, N: Dígito.")
     celular = input("Digite seu número de telefone: ")
     if len(celular) != 11 or celular[6] != "-" or celular[0:6].isnumeric() == False or celular[7:].isnumeric() == False:
@@ -64,9 +64,9 @@ def editar_contato(usuario1 : str):
 
         while True:
             buscar_contato(usuario)
-            campo_edicao = input("Escolha o campo para editar ou [sair] para sair: ").lower()
+            campo_edicao = input("Escolha o campo para editar ou [sair] para salvar e sair: ").lower()
             if campo_edicao == "sair":
-                print("Edição encerrada com sucesso.")
+                print("Edição salva e finalizada com sucesso.")
                 break
             if campo_edicao in campos:
                 if campos[campo_edicao] == 0:
@@ -85,13 +85,13 @@ def editar_contato(usuario1 : str):
 
                 elif campos[campo_edicao] == 2:
                     print("\nExemplo de número de telefone: DDNNNN-NNNN.")
-                    print("Não inclua um '9' a mais depois do DDD.")
+                    print("Não inclua um '9' adicional depois do DDD.")
                     print("D: DDD, N: Dígito.")
                     novotelefone = input("\nDigite o novo telefone: ")
                     if len(novotelefone) != 11 or novotelefone[6] != "-" or novotelefone[0:6].isnumeric() == False or novotelefone[7:].isnumeric() == False:
                         print(f"ERRO: Número de telefone inválido.")
                     else:
-                        print(f"Nome {agenda[usuario][1]} virou {novotelefone} com sucesso.")
+                        print(f"Telefone {agenda[usuario][1]} virou {novotelefone} com sucesso.")
                         agenda[usuario][1] = novotelefone
 
                 elif campos[campo_edicao] == 3:
@@ -100,7 +100,7 @@ def editar_contato(usuario1 : str):
                     if "@" not in novoemail or "." not in novoemail[(novoemail.index('@')):]:
                         print("ERRO: E-mail inválido.")
                     else:                      
-                        print(f"Nome {agenda[usuario][2]} virou {novoemail} com sucesso.")
+                        print(f"E-mail {agenda[usuario][2]} virou {novoemail} com sucesso.")
                         agenda[usuario][2] = novoemail
 
             else:
@@ -125,12 +125,12 @@ def remover_contato(usuario1 : str):
         print(f"ERRO: Usuário {usuario} não existe.")   
     
 def salvar_agenda():
-    with open("agenda.json", "w", encoding="utf-8") as arquivojson:
+    with open("agenda.json", "w") as arquivojson:
         json.dump(agenda, arquivojson)
  
 def carregar_agenda():
     global agenda
-    with open("agenda.json", "r", encoding='utf-8') as agendajson:
+    with open("agenda.json", "r") as agendajson:
         agenda = json.load(agendajson)
 
 def encerrar_programa():
@@ -164,12 +164,12 @@ while True:
                 usuario = "@" + input("\nDigite a tag de usuário para remover: ").lower()
                 remover_contato(usuario)
 
-            elif opcao == "5": # ENCERRAR PROGRAMA
+            elif opcao == "5": # FINALIZAR PROGRAMA
                 if encerrar_programa() == "confirmar":
-                    print("Programa encerrado com sucesso.")
+                    print("Programa finalizado com sucesso.")
                     break
                 else:
-                    print("Programa não foi encerrado.")
+                    print("Programa não foi finalizado.")
         else: 
             print(f"ERRO: A opção {opcao} não é um número inteiro entre 1 e 5.")
     else:
