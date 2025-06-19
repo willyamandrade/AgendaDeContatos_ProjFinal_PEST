@@ -36,6 +36,7 @@ def adicionar_contato():
     
     agenda[usuario] = [nome, celular, email]
     salvar_agenda()
+    print(f"Contato {usuario} adicionado com sucesso.")
 
 def buscar_contato(usuario : str):
     if usuario in agenda:
@@ -50,23 +51,55 @@ def buscar_contato(usuario : str):
     else:
         print(f"ERRO: Usuário {usuario} não existe.")
     
-def editar_contato(usuario : str):
+def editar_contato(usuario1 : str):
+    global agenda
+    usuario = usuario1
     if usuario in agenda:
-        campos = {"nome" : 0, "telefone" : 1, "e-mail" : 2}
+        campos = {"contato" : 0, "nome" : 1, "telefone" : 2, "e-mail" : 3}
+
         while True:
             buscar_contato(usuario)
-            campo_edicao = input("Escolha o campo para editar ou [sair] para sair:").lower()
+            campo_edicao = input("Escolha o campo para editar ou [sair] para sair: ").lower()
             if campo_edicao == "sair":
+                print("Edição encerrada com sucesso.")
                 break
             if campo_edicao in campos:
                 if campos[campo_edicao] == 0:
-                    pass
+                    novatag = "@" + input("\nDigite a nova tag de usuário: ").lower()
+                    if novatag in agenda:
+                        print(f"ERRO: Tag de usuário {novatag} já existe.")
+                    else:
+                        agenda[novatag] = agenda[usuario]
+                        print(f"Tag {agenda.pop(usuario)} virou {novatag} com sucesso.")
+                        usuario = novatag
+
                 elif campos[campo_edicao] == 1:
-                    pass
+                    novonome = input("\nDigite o novo nome de usuário: ")
+                    print(f"Nome {agenda[usuario][0]} virou {novonome} com sucesso.")
+                    agenda[usuario][0] = novonome
+
                 elif campos[campo_edicao] == 2:
-                    pass
-                agenda[usuario][campos[campo_edicao]]
-            print(f"ERRO: Campo {campo_edicao} não existe.")
+                    print("\nExemplo de número de telefone: DDNNNN-NNNN.")
+                    print("Não inclua um '9' a mais depois do DDD.")
+                    print("D: DDD, N: Dígito.")
+                    novotelefone = input("\nDigite o novo telefone: ")
+                    if len(novotelefone) != 11 or novotelefone[6] != "-":
+                        print(f"ERRO: Número de telefone inválido.")
+                    else:
+                        print(f"Nome {agenda[usuario][1]} virou {novotelefone} com sucesso.")
+                        agenda[usuario][1] = novotelefone
+
+                elif campos[campo_edicao] == 3:
+                    print("\nExemplo de e-mail: nomedoemail@gmail.com")
+                    novoemail = input("\nDigite o novo e-mail: ")
+                    if "@" not in novoemail or "." not in novoemail[(novoemail.index('@')):]:
+                        print("ERRO: E-mail inválido.")
+                    else:                      
+                        print(f"Nome {agenda[usuario][2]} virou {novoemail} com sucesso.")
+                        agenda[usuario][2] = novoemail
+
+            else:
+                print(f"ERRO: Campo {campo_edicao} não existe.")
         salvar_agenda()
     else:
         print(f"ERRO: Usuário {usuario} não existe.")
@@ -93,7 +126,7 @@ def encerrar_programa():
 carregar_agenda()
 
 while True:
-    opcao = menu_principal()
+    opcao = menu_principal()[0:1] 
     if opcao.isnumeric():
         if int(opcao) in range(1, 6, 1):
             if   opcao == "1": # ADICIONAR CONTATO
